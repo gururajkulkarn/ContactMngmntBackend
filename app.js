@@ -30,7 +30,7 @@ db.once('open', () => {
 });
 
 
-app.get('https://contactmngmntbackend.onrender.com/categorylist', (req,res)=>{
+app.get('/categorylist', (req,res)=>{
     CategoryModel.find({})
     .then(category => res.json(category))
     .catch(err => res.json(err))
