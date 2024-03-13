@@ -1,11 +1,11 @@
 const express = require('express');
+const cors = require('cors');
+const app = express();
 const mongoose = require('mongoose');
 const CategoryModel = require('./models/category');
 const AddressModel = require('./models/address')
 const NewcontactModel = require('./models/newcontact')
 require('dotenv').config();
-const cors = require('cors');
-const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
