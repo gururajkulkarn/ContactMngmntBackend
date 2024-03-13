@@ -3,9 +3,11 @@ const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose');
 const CategoryModel = require('./models/category');
-const AddressModel = require('./models/address')
-const NewcontactModel = require('./models/newcontact')
-require('dotenv').config();
+const AddressModel = require('./models/address');
+const NewcontactModel = require('./models/newcontact');
+
+// Direct MongoDB connection
+const mongoURI = 'mongodb+srv://guru:guru3239@contactmngmnt.0n1fo0e.mongodb.net/contactmangmnt?retryWrites=true&w=majority&appName=Contactmngmnt';
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
@@ -15,16 +17,18 @@ app.get('/', (req, res) => {
     res.send("Hello world from the server");
 });
 
-mongoose.connect(process.env.MONGO_CONNECTION);
+mongoose.connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
 const db = mongoose.connection;
 db.on('error', (error) => {
-  console.error('MongoDB connection error:', error);
+    console.error('MongoDB connection error:', error);
 });
 db.once('open', () => {
-  console.log('Connected to MongoDB');
+    console.log('Connected to MongoDB');
 });
-
 
 app.get('/categorylist', (req,res)=>{
     CategoryModel.find({})
@@ -40,26 +44,26 @@ app.get('/addresslist', (req,res)=>{
 
 app.get('/newcontactlist', (req,res)=>{
     NewcontactModel.find({})
-    .then(newcotact => res.json(newcotact))
+    .then(newcontact => res.json(newcontact))
     .catch(err => res.json(err))
 })
 
 app.post("/category", (req,res) => {
     CategoryModel.create(req.body)
     .then(category => res.json(category))
- .catch(err => res.json(err))
+    .catch(err => res.json(err))
 })
 
 app.post("/address", (req,res) => {
     AddressModel.create(req.body)
     .then(address => res.json(address))
- .catch(err => res.json(err))
+    .catch(err => res.json(err))
 })
 
 app.post("/newcontact", (req,res) => {
     NewcontactModel.create(req.body)
-    .then(newcotact => res.json(newcotact))
- .catch(err => res.json(err))
+    .then(newcontact => res.json(newcontact))
+    .catch(err => res.json(err))
 })
 
 app.listen(PORT, () => {
