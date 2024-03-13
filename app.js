@@ -4,7 +4,6 @@ const CategoryModel = require('./models/category');
 const AddressModel = require('./models/address')
 const NewcontactModel = require('./models/newcontact')
 require('dotenv').config();
-
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -16,17 +15,14 @@ app.get('/', (req, res) => {
     res.send("Hello world from the server");
 });
 
-mongoose.connect(process.env.MONGO_CONNECTION, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+mongoose.connect(process.env.MONGO_CONNECTION);
 
 const db = mongoose.connection;
 db.on('error', (error) => {
-    console.error('MongoDB connection error:', error);
+  console.error('MongoDB connection error:', error);
 });
 db.once('open', () => {
-    console.log('Connected to MongoDB');
+  console.log('Connected to MongoDB');
 });
 
 
